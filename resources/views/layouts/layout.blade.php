@@ -18,7 +18,7 @@
         
         <script type="text/javascript" src="{{asset('js/jquery.min.js')}}"></script>
         <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
-        <script type="text/javascript" src="{{asset('js/d3.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/chart.js')}}"></script>
 
         @yield('footer')
     </body>

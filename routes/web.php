@@ -15,3 +15,4 @@ Route::get('/', 'HomesController@index');
 
 Route::get('/charts/line', 'ChartsController@line');
 
+Route::get('/charts/linejson', 'ChartsController@linejson');
