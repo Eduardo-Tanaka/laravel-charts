@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomesController@index');
 
-Route::get('/about', function () {
-    return view('about');
-});
+Route::get('/charts/line', 'ChartsController@line');
+
