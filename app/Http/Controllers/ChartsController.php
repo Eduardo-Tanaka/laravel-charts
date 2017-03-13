@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Grafico;
 
 class ChartsController extends Controller
 {
@@ -10,14 +12,22 @@ class ChartsController extends Controller
    		return view('charts.line');
     }
 
-    public function linejson()
+    public function graficojsonbar()
     {
-    	$json = '[
-	    	{ "date": "24-Apr-07", "close": "93.24" },
-	    	{ "date": "25-Apr-07", "close": "95.35" },
-	    	{ "date": "26-Apr-07", "close": "98.84" }
-	    ]';
-   		return $json;
+    	$graficoPorMes = DB::table('graficos')
+					->select(DB::raw('sum(quantidade) as quantidade'), DB::raw('MONTH(created_at) as mes'))
+					->groupBy('mes')
+					->get();
+   		return $graficoPorMes;
+    }
+
+    public function graficojsonline($mes)
+    {
+    	$graficoDiasPorMes = DB::table('graficos')
+					->select(DB::raw('quantidade'), DB::raw('DAY(created_at) as dia'), DB::raw('MONTH(created_at) as mes'))
+					->where(DB::raw('MONTH(created_at)'), '=', $mes)
+					->get();
+   		return $graficoDiasPorMes;
     }
 }
    

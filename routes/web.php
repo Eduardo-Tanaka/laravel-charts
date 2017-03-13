@@ -15,4 +15,6 @@ Route::get('/', 'HomesController@index');
 
 Route::get('/charts/line', 'ChartsController@line');
 
-Route::get('/charts/linejson', 'ChartsController@linejson');
+Route::get('/charts/graficojsonbar', 'ChartsController@graficojsonbar');
+
+Route::get('/charts/graficojsonline/{mes}', 'ChartsController@graficojsonline');
