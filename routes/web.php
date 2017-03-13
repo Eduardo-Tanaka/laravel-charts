@@ -15,6 +15,14 @@ Route::get('/', 'HomesController@index');
 
 Route::get('/charts/line', 'ChartsController@line');
 
+Route::get('/charts/index', 'ChartsController@index');
+Route::get('/charts/cadastrar', 'ChartsController@cadastrar');
+Route::post('/charts', 'ChartsController@gravar');
+
+Route::get('/charts/show/{mes}', 'ChartsController@show');
+
+Route::get('/charts/{id}/quantidade/{quantidade}', 'ChartsController@edit');
+
 Route::get('/charts/graficojsonbar', 'ChartsController@graficojsonbar');
 
 Route::get('/charts/graficojsonline/{mes}', 'ChartsController@graficojsonline');

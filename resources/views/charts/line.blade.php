@@ -1,12 +1,10 @@
 @extends('layouts.layout')
 
 @section('content')
-    <h1 class="jumbotron">LINES</h1>
+    <h1 class="jumbotron">Lista Por Mês</h1>
     <div id="chart-div">
     </div>
     <div id="ajaxloader" hidden="hidden"></div>
-
-
 @endsection
 
 @section('footer')
@@ -14,7 +12,7 @@
 	var jsonBar = null;
 	var jsonLine = null;
 	var mesAntigo = null;
-	var meses = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril'];
+	var meses = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 	var cor = [ '', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)' ];
 	var bkg = [ '', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)' ];
 
@@ -208,4 +206,3 @@
 	getDadosBar();
 </script>
 @endsection
-
