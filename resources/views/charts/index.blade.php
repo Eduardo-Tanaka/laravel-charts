@@ -24,6 +24,7 @@
 
 @section('footer')
 <script>
+	$("#link-dados").addClass("active");
 	var meses = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 	$("#table").hide();
 	$("#ajaxloader").show();

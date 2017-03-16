@@ -23,7 +23,7 @@
 
 @section('footer')
 <script>
-
+	$("#link-dados").addClass("active");
 	var meses = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 	$("#span-mes").text(meses[$("#mes").val()]);
 	$("#table").hide();

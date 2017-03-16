@@ -12,9 +12,14 @@ class ChartsController extends Controller
 		return view('charts.index');
 	}
 
-    public function line()
+    public function barra()
     {
-   		return view('charts.line');
+   		return view('charts.barra');
+    }
+
+    public function linha()
+    {
+   		return view('charts.linha');
     }
 
     public function cadastrar()
@@ -54,6 +59,7 @@ class ChartsController extends Controller
     	$graficoPorMes = DB::table('graficos')
 					->select(DB::raw('sum(quantidade) as quantidade'), DB::raw('MONTH(created_at) as mes'))
 					->groupBy('mes')
+					->orderBy('mes')
 					->get();
    		return $graficoPorMes;
     }
@@ -63,6 +69,7 @@ class ChartsController extends Controller
     	$graficoDiasPorMes = DB::table('graficos')
 					->select(DB::raw('id'), DB::raw('quantidade'), DB::raw('DAY(created_at) as dia'), DB::raw('MONTH(created_at) as mes'))
 					->where(DB::raw('MONTH(created_at)'), '=', $mes)
+					->orderBy('dia')
 					->get();
    		return $graficoDiasPorMes;
     }

@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-    <h1 class="jumbotron">Lista Por Mês</h1>
+    <h1 class="jumbotron">Gráfico de Barras</h1>
     <div id="chart-div">
     </div>
     <div id="ajaxloader" hidden="hidden"></div>
@@ -9,14 +9,15 @@
 
 @section('footer')
 <script>
+	$("#link-barra").addClass("active");
 	var jsonBar = null;
 	var jsonLine = null;
 	var mesAntigo = null;
 	var meses = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-	var cor = [ '', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)' ];
-	var bkg = [ '', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)' ];
+	var cor = [ '', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'];
+	var bkg = [ '', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)' ];
 
-	function getDadosLine(mes){
+	function getDadosDia(mes){
 		if(mesAntigo != mes) {
 			$("#ajaxloader").show();
 			$.ajax({
@@ -25,16 +26,16 @@
 				success: function(data){
 					jsonLine = data;
 					mesAntigo = mes;
-					renderLine(jsonLine);
+					renderBarDia(jsonLine);
 					$("#ajaxloader").hide();
 				}
 			});
 		} else {
-			renderLine(jsonLine);
+			renderBarDia(jsonLine);
 		}
 	}
 
-	function renderLine(dados) {
+	function renderBarDia(dados) {
 		$("#chart-div").append('<canvas id="myChart"></canvas>');
 		var ctx = $("#myChart");
 		var labels = [];
@@ -140,12 +141,10 @@
 			        {
 			            label: "quantidade",
 			            backgroundColor: [
-			                cor[1],
-			                cor[2],
+			                cor[1], cor[2],  cor[3], cor[4], cor[5], cor[6], cor[1], cor[2],  cor[3], cor[4], cor[5], cor[6],
 			            ],
 			            borderColor: [
-			                bkg[1],
-			                bkg[2],
+			                bkg[1], bkg[2], bkg[3], bkg[4], bkg[5], bkg[6], cor[1], cor[2],  cor[3], cor[4], cor[5], cor[6],
 			            ],
 			            borderWidth: 1,
 			            data: datas,
@@ -175,7 +174,7 @@
 			    		console.log(item[index]);*/
 						$("#myChart").remove();
 						//myChart.destroy();
-			    		getDadosLine(index + 1);
+			    		getDadosDia(index + 1);
 					} 
 		    	},
 		    	title:{

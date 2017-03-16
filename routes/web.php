@@ -13,7 +13,8 @@
 
 Route::get('/', 'HomesController@index');
 
-Route::get('/charts/line', 'ChartsController@line');
+Route::get('/charts/barra', 'ChartsController@barra');
+Route::get('/charts/linha', 'ChartsController@linha');
 
 Route::get('/charts/index', 'ChartsController@index');
 Route::get('/charts/cadastrar', 'ChartsController@cadastrar');
