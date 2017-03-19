@@ -18,7 +18,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{asset('DataTables/DataTables-1.10.13/css/dataTables.bootstrap.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('DataTables/Buttons-1.2.4/css/buttons.datatables.css')}}"/>
-    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/Buttons-1.2.4/css/buttons.datatables.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/Buttons-1.2.4/css/buttons.bootstrap.css')}}"/>
 </head>
 
 <body>
