@@ -113,6 +113,9 @@ ul.alert-dropdown {
 /* Side Navigation */
 
 @media(min-width:768px) {
+    #page-wrapper {
+        min-height: 900px;
+    }
     .side-nav {
         position: fixed;
         top: 51px;

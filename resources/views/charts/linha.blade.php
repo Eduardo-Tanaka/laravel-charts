@@ -1,201 +1,207 @@
 @extends('layouts.layout')
 
 @section('content')
-    <h1 class="jumbotron">Gráfico de Linhas</h1>
-    <div id="chart-div">
-    </div>
+    <h1 class="jumbotron">Gráfico de Barras</h1>
     <div id="ajaxloader" hidden="hidden"></div>
+    <div id="chart-div"></div>
 @endsection
 
 @section('footer')
 <script>
-	$("#link-linha").addClass("active");
+	$("#link-barra").addClass("active");
 	var jsonBar = null;
-	var jsonLine = null;
-	var mesAntigo = null;
+	var jsonMes = [];
 	var meses = ['', 'Janeiro', 'Fevereiro', 'Março', 'Abril', "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-
-	function getDadosDia(mes){
-		if(mesAntigo != mes) {
-			$("#ajaxloader").show();
-			$.ajax({
-				url: '/charts/graficojsonline/' + mes,
-				type: 'get',
-				success: function(data){
-					jsonLine = data;
-					mesAntigo = mes;
-					renderBarDia(jsonLine);
-					$("#ajaxloader").hide();
-				}
-			});
-		} else {
-			renderBarDia(jsonLine);
-		}
-	}
-
-	function renderBarDia(dados) {
-		$("#chart-div").append('<canvas id="myChart"></canvas>');
-		var ctx = $("#myChart");
-		var labels = [];
+        
+    var myChart = null;
+ 	
+    function getOptionBarra(data) {
+    	var labels = [];
 		var qtds = [];
 		// parse data 
-		dados.forEach(function(d){
-			labels.push("Dia: " + d.dia);
+		data.forEach(function(d){
+			labels.push(meses[d.mes]);
 			qtds.push(d.quantidade);
 		});
-		var myChart = new Chart(ctx, {
-		    type: 'line',
-		    data: {
-		        labels: labels,
-			    datasets: [
-			        {
-				        label: "quantidades",
-			            fill: false,
-			            lineTension: 0.1,
-			            backgroundColor: "rgba(75,192,192,0.4)",
-			            borderColor: "rgba(75,192,192,1)",
-			            borderCapStyle: 'butt',
-			            borderDash: [],
-			            borderDashOffset: 0.0,
-			            borderJoinStyle: 'miter',
-			            pointBorderColor: "rgba(75,192,192,1)",
-			            pointBackgroundColor: "#fff",
-			            pointBorderWidth: 2,
-			            pointHoverRadius: 5,
-			            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-			            pointHoverBorderColor: "rgba(220,220,220,1)",
-			            pointHoverBorderWidth: 2,
-			            pointRadius: 1,
-			            pointHitRadius: 10,
-			            data: qtds,
-			            spanGaps: false,
-				    }
-			    ]
+    	var option = {
+			title : {
+				x: 'center',
+		        text: 'Gráfico Por Mês',
 		    },
-		    options: {
-		    	title:{
-                    display: true,
-                    text: "Produção por Dia - " + meses[dados[0].mes]
-                },
-	        	onClick: function(evt, item) {
-	        		console.log(evt);
-		    		console.log(item);
-		    		if(item.length != 0){
-		        		$("#myChart").remove();
-			    		getDadosBar();
-			    	}
-	        	},
-	        	scales: {
-		           xAxes: [{
-		        		scaleLabel: {
-					        display: true,
-					        labelString: 'Dias'
-					    },
-		        	}],
-		            yAxes: [{
-		            	scaleLabel: {
-					        display: true,
-					        labelString: 'Quantidades'
-					    },
-		                ticks: {
-		                    beginAtZero:true
+		    toolbox: {
+		        show : true,
+		        feature : {
+		            dataView : { show: true, readOnly: false, title: 'Dados' },
+		            magicType : { show: true, type: ['line', 'bar'], title: { line: "Linha", bar: "Barra" } },
+		            restore : { show: true, title: 'Restaurar' },
+		            saveAsImage : { show: true, title: "Salvar" }
+		        }
+		    },
+            tooltip: {
+                show: true
+            },
+            legend: {
+                data: ['Quantidade'],
+                show: false
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : labels
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name: "Quantidade",
+                    type: "line",
+                    data: qtds,
+		            itemStyle: {
+		                normal: {
+		                    color: '#C1232B',	                    
+		                    label: {
+		                        show: true,
+		                        position: 'top',
+		                        formatter: '{b}\n{c}'
+		                    }
 		                }
-		            }]
-		        },
-	        }
+		            },
+                }
+            ]
+        };
+        return option;
+    }
+
+    function getOptionBarraDia(data, mes) {
+    	var labels = [];
+		var qtds = [];
+		// parse data 
+		data.forEach(function(d){
+			labels.push("Dia " + d.dia);
+			qtds.push(d.quantidade);
 		});
-	}
+    	var option = {
+			title : {
+				x: 'center',
+		        text: 'Gráfico Por Dia / Mês',
+		    },
+		    toolbox: {
+		        show : true,
+		        feature : {
+		            dataView : { show: true, readOnly: false, title: 'Dados' },
+		            magicType : { show: true, type: ['line', 'bar'], title: { line: "Linha", bar: "Barra" } },
+		            restore : { show: true, title: 'Restaurar' },
+		            saveAsImage : { show: true, title: "Salvar" }
+		        }
+		    },
+            tooltip: {
+                show: true
+            },
+            legend: {
+                data: ['Quantidade'],
+                show: false
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : labels,
+                    axisLabel: {
+		                // force to display all labels
+		                interval: 0,
+		                formatter: function(d) {
+		                    return d;
+		                }
+		            }
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name: "Quantidade",
+                    type: "line",
+                    data: qtds,
+		            itemStyle: {
+		                normal: {
+		                    color: '#C1232B',
+		                    label: {
+		                        show: true,
+		                        position: 'top',
+		                        formatter: '{b}\n{c}'
+		                    }
+		                }
+		            },
+                }
+            ]
+        };
+        return option;
+    }
 
 	function getDadosBar(){
+		$("#chart-div").append('<div id="main" style="height:400px"></div>');
+    	myChart = echarts.init(document.getElementById('main')); 
 		if(jsonBar == null) {
 			$("#ajaxloader").show();
 			$.ajax({
-				url: '/charts/graficojsonbar',
+				url: '/charts/graficojsonPorMes',
 				type: 'get',
-				success: function(data){
+				success: function(data){					
 					jsonBar = data;
-					renderBar(jsonBar);
 					$("#ajaxloader").hide();
+					
+					var opt = getOptionBarra(data);				
+			        // Load data into the ECharts instance 
+			        myChart.setOption(opt); 		        
 				}
 			});
 		} else {
-			renderBar(jsonBar);
+			var opt = getOptionBarra(jsonBar);				
+	        // Load data into the ECharts instance 
+	        myChart.setOption(opt); 
 		}
+
+		myChart.on("click", function(param){
+        	mes = param.dataIndex + 1;
+        	$("#main").remove();
+        	$("#ajaxloader").show();
+        	if(jsonMes[mes] == undefined) {
+				$.ajax({
+					url: '/charts/graficojsonPorDiaMes/' + mes,
+					type: 'get',
+					success: function(data){
+						console.log(jsonMes[mes]);
+						renderBarDia(data, mes)
+						jsonMes[mes] = data;
+						$("#ajaxloader").hide();
+					}
+				});
+			} else {
+				renderBarDia(jsonMes[mes], mes);
+				$("#ajaxloader").hide();
+			}
+        });
 	}
 
-	function renderBar(dados){
-		$("#chart-div").append('<canvas id="myChart"></canvas>');
-		var ctx = $("#myChart");
-		var labels = [];
-		var datas = [];
-		// parse data 
-		dados.forEach(function(d){
-			labels.push(meses[d.mes]);
-			datas.push(d.quantidade);
-		});
-
-		var myChart = new Chart(ctx, {
-		    type: 'line',
-		    data: {
-		        labels: labels,
-			    datasets: [
-			        {
-			            label: "quantidades",
-			            fill: false,
-			            lineTension: 0.1,
-			            backgroundColor: "rgba(75,192,192,0.4)",
-			            borderColor: "rgba(75,192,192,1)",
-			            borderCapStyle: 'round',
-			            borderDash: [],
-			            borderDashOffset: 0.0,
-			            borderJoinStyle: 'miter',
-			            pointBorderColor: "rgba(75,192,192,1)",
-			            pointBackgroundColor: "#fff",
-			            pointBorderWidth: 2,
-			            pointHoverRadius: 5,
-			            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-			            pointHoverBorderColor: "rgba(220,220,220,1)",
-			            pointHoverBorderWidth: 1,
-			            pointRadius: 1,
-			            pointHitRadius: 10,
-			            data: datas,
-			            spanGaps: false,
-        			}
-			    ]
-		    },
-		    options: {		    	
-		    	onClick: function(evt, item){
-		    		console.log(evt);
-		    		console.log(item);
-		    		if(item.length != 0){
-		    			var index = item[0]._index;
-						$("#myChart").remove();
-			    		getDadosDia(index + 1);
-					} 
-		    	},
-		    	title:{
-                    display: true,
-                    text: "Produção por Mês"
-                },
-		        scales: {
-		        	xAxes: [{
-		        		scaleLabel: {
-					        display: true,
-					        labelString: 'Meses'
-					    },
-		        	}],
-		            yAxes: [{
-		            	scaleLabel: {
-					        display: true,
-					        labelString: 'Quantidades'
-					    },
-		                ticks: {
-		                    beginAtZero:true
-		                }
-		            }]
-		        }
-		    }
-		});
+    function renderBarDia(data, mes){
+    	console.log(jsonMes[mes])
+		$("#chart-div").append('<div id="main" style="height:400px"></div>');
+    	myChart = echarts.init(document.getElementById('main')); 
+		opt = getOptionBarraDia(data, mes);
+		 // Load data into the ECharts instance 
+		myChart.setOption(opt); 
+		myChart.on("click", function(param){
+			$("#main").remove();
+	    	$("#ajaxloader").show();
+	    	getDadosBar();
+	    	$("#ajaxloader").hide();
+	    });   	
 	}
 
 	getDadosBar();

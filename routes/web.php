@@ -24,6 +24,6 @@ Route::get('/charts/show/{mes}', 'ChartsController@show');
 
 Route::get('/charts/{id}/quantidade/{quantidade}', 'ChartsController@edit');
 
-Route::get('/charts/graficojsonbar', 'ChartsController@graficojsonbar');
+Route::get('/charts/graficojsonPorMes', 'ChartsController@graficojsonPorMes');
 
-Route::get('/charts/graficojsonline/{mes}', 'ChartsController@graficojsonline');
+Route::get('/charts/graficojsonPorDiaMes/{mes}', 'ChartsController@graficojsonPorDiaMes');

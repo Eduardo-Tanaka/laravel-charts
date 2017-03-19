@@ -54,23 +54,25 @@ class ChartsController extends Controller
 	    return $value;
     }
 
-    public function graficojsonbar()
+    public function graficojsonPorMes()
     {
     	$graficoPorMes = DB::table('graficos')
 					->select(DB::raw('sum(quantidade) as quantidade'), DB::raw('MONTH(created_at) as mes'))
 					->groupBy('mes')
 					->orderBy('mes')
 					->get();
+
    		return $graficoPorMes;
     }
 
-    public function graficojsonline($mes)
+    public function graficojsonPorDiaMes($mes)
     {
     	$graficoDiasPorMes = DB::table('graficos')
 					->select(DB::raw('id'), DB::raw('quantidade'), DB::raw('DAY(created_at) as dia'), DB::raw('MONTH(created_at) as mes'))
 					->where(DB::raw('MONTH(created_at)'), '=', $mes)
 					->orderBy('dia')
 					->get();
+
    		return $graficoDiasPorMes;
     }
 }
