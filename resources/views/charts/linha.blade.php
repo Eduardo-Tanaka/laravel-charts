@@ -3,7 +3,7 @@
 @section('content')
     <h1 class="jumbotron">Gráfico de Barras</h1>
     <div id="ajaxloader" hidden="hidden"></div>
-    <div id="chart-div"></div>
+    <div id="chart-div"><div id="main" style="height:400px"></div></div>
 @endsection
 
 @section('footer')
@@ -31,7 +31,7 @@
 		    toolbox: {
 		        show : true,
 		        feature : {
-		            dataView : { show: true, readOnly: false, title: 'Dados' },
+		            dataView : { show: true, readOnly: false, title: 'Dados', lang: [ 'Dados', 'fechar', 'atualizar'] },
 		            magicType : { show: true, type: ['line', 'bar'], title: { line: "Linha", bar: "Barra" } },
 		            restore : { show: true, title: 'Restaurar' },
 		            saveAsImage : { show: true, title: "Salvar" }
@@ -92,7 +92,7 @@
 		    toolbox: {
 		        show : true,
 		        feature : {
-		            dataView : { show: true, readOnly: false, title: 'Dados' },
+		            dataView : { show: true, readOnly: false, title: 'Dados', lang: [ 'Dados', 'fechar', 'atualizar'] },
 		            magicType : { show: true, type: ['line', 'bar'], title: { line: "Linha", bar: "Barra" } },
 		            restore : { show: true, title: 'Restaurar' },
 		            saveAsImage : { show: true, title: "Salvar" }
@@ -145,16 +145,24 @@
     }
 
 	function getDadosBar(){
-		$("#chart-div").append('<div id="main" style="height:400px"></div>');
+		//$("#chart-div").append('<div id="main" style="height:400px"></div>');
     	myChart = echarts.init(document.getElementById('main')); 
 		if(jsonBar == null) {
-			$("#ajaxloader").show();
+			myChart.showLoading({
+			  text: 'carregando',
+			  color: '#c23531',
+			  textColor: '#000',
+			  maskColor: 'rgba(255, 255, 255, 0.8)',
+			  zlevel: 0
+			});
+			//$("#ajaxloader").show();
 			$.ajax({
 				url: '/charts/graficojsonPorMes',
 				type: 'get',
 				success: function(data){					
 					jsonBar = data;
-					$("#ajaxloader").hide();
+					myChart.hideLoading();
+					//$("#ajaxloader").hide();
 					
 					var opt = getOptionBarra(data);				
 			        // Load data into the ECharts instance 
@@ -169,8 +177,15 @@
 
 		myChart.on("click", function(param){
         	mes = param.dataIndex + 1;
-        	$("#main").remove();
-        	$("#ajaxloader").show();
+        	//$("#main").remove();
+        	myChart.showLoading({
+			  text: 'carregando',
+			  color: '#c23531',
+			  textColor: '#000',
+			  maskColor: 'rgba(255, 255, 255, 0.8)',
+			  zlevel: 0
+			});
+        	//$("#ajaxloader").show();
         	if(jsonMes[mes] == undefined) {
 				$.ajax({
 					url: '/charts/graficojsonPorDiaMes/' + mes,
@@ -179,28 +194,38 @@
 						console.log(jsonMes[mes]);
 						renderBarDia(data, mes)
 						jsonMes[mes] = data;
-						$("#ajaxloader").hide();
+						myChart.hideLoading();
+						//$("#ajaxloader").hide();
 					}
 				});
 			} else {
 				renderBarDia(jsonMes[mes], mes);
-				$("#ajaxloader").hide();
+				myChart.hideLoading();
+				//$("#ajaxloader").hide();
 			}
         });
 	}
 
     function renderBarDia(data, mes){
     	console.log(jsonMes[mes])
-		$("#chart-div").append('<div id="main" style="height:400px"></div>');
+		//$("#chart-div").append('<div id="main" style="height:400px"></div>');
     	myChart = echarts.init(document.getElementById('main')); 
 		opt = getOptionBarraDia(data, mes);
 		 // Load data into the ECharts instance 
 		myChart.setOption(opt); 
 		myChart.on("click", function(param){
-			$("#main").remove();
-	    	$("#ajaxloader").show();
+			//$("#main").remove();
+			myChart.showLoading({
+			  text: 'carregando',
+			  color: '#c23531',
+			  textColor: '#000',
+			  maskColor: 'rgba(255, 255, 255, 0.8)',
+			  zlevel: 0
+			});
+	    	//$("#ajaxloader").show();
 	    	getDadosBar();
-	    	$("#ajaxloader").hide();
+	    	myChart.hideLoading();
+	    	//$("#ajaxloader").hide();
 	    });   	
 	}
 

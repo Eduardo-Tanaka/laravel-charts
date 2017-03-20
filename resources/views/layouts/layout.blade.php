@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/font-awesome.min.css')}}" />
 
     <link rel="stylesheet" type="text/css" href="{{asset('DataTables/DataTables-1.10.13/css/dataTables.bootstrap.css')}}"/>
-    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/Buttons-1.2.4/css/buttons.datatables.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/Buttons-1.2.4/css/buttons.dataTables.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('DataTables/Buttons-1.2.4/css/buttons.bootstrap.css')}}"/>
 </head>
 
@@ -50,7 +50,8 @@
 	<script type="text/javascript" src="{{asset('DataTables/JSZip-2.5.0/jszip.js')}}"></script>
 
     <script type="text/javascript" src="{{asset('js/jeditable.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('echarts-2.2.7/build/dist/echarts-all.js')}}"></script> <!-- precisei colocar depois do DataTables para não causar erro -->
+    <script type="text/javascript" src="{{asset('js/echarts-3.4.0.js')}}"></script>
+    <!-- <script type="text/javascript" src="{{asset('echarts-2.2.7/build/dist/echarts-all.js')}}"></script> precisei colocar depois do DataTables para não causar erro -->
 
     <script>
     	// para ajustar cor do background do conteúdo
